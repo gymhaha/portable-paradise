@@ -62,7 +62,12 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+        supabase: {
+          green: '#3ECF8E',
+          darkGreen: '#24b47e', 
+          lightGreen: '#4edba0'
+        }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

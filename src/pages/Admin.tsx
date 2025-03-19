@@ -33,7 +33,9 @@ import {
   Upload, 
   Pencil, 
   Trash2, 
-  Save 
+  Save,
+  X,
+  ImagePlus
 } from "lucide-react";
 import { products } from '@/lib/data';
 import { useToast } from "@/hooks/use-toast";
@@ -52,6 +54,7 @@ const productSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   isNew: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
+  images: z.array(z.string()).optional(),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -65,6 +68,8 @@ const Admin = () => {
   const [isStockDialogOpen, setIsStockDialogOpen] = useState(false);
   const [currentStock, setCurrentStock] = useState("");
   const [stockProductId, setStockProductId] = useState<number | null>(null);
+  const [productImages, setProductImages] = useState<string[]>([]);
+  const [newImageUrl, setNewImageUrl] = useState("");
   const { toast } = useToast();
   
   const form = useForm<ProductFormValues>({
@@ -78,6 +83,7 @@ const Admin = () => {
       description: "",
       isNew: false,
       isFeatured: false,
+      images: [],
     },
   });
 
@@ -129,8 +135,10 @@ const Admin = () => {
       description: product.description,
       isNew: product.isNew,
       isFeatured: product.isFeatured,
+      images: product.images,
     });
     
+    setProductImages(product.images || []);
     setProductBeingEdited(productId);
     setIsEditingProduct(true);
     setIsAddProductOpen(true);
@@ -146,7 +154,34 @@ const Admin = () => {
     }
   };
 
+  const addProductImage = () => {
+    if (!newImageUrl.trim()) {
+      toast({
+        title: "Empty image URL",
+        description: "Please enter a valid image URL",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setProductImages(prev => [...prev, newImageUrl]);
+    setNewImageUrl("");
+  };
+
+  const removeProductImage = (index: number) => {
+    setProductImages(prev => prev.filter((_, i) => i !== index));
+  };
+
   const onSubmit = (data: ProductFormValues) => {
+    if (productImages.length === 0) {
+      toast({
+        title: "No images added",
+        description: "Please add at least one product image",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (isEditingProduct && productBeingEdited) {
       // Update existing product
       setLocalProducts(prev => 
@@ -162,6 +197,8 @@ const Admin = () => {
                 description: data.description,
                 isNew: data.isNew,
                 isFeatured: data.isFeatured,
+                images: productImages,
+                image: productImages[0]
               } 
             : product
         )
@@ -184,10 +221,8 @@ const Admin = () => {
           category: data.category,
           price: parseFloat(data.price),
           stock: parseInt(data.stock),
-          images: [
-            "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=2070&auto=format&fit=crop"
-          ],
-          image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=2070&auto=format&fit=crop",
+          images: productImages,
+          image: productImages[0],
           rating: 4.5,
           reviewCount: 0,
           description: data.description,
@@ -215,6 +250,7 @@ const Admin = () => {
     setIsAddProductOpen(false);
     setIsEditingProduct(false);
     setProductBeingEdited(null);
+    setProductImages([]);
     form.reset();
   };
 
@@ -228,7 +264,9 @@ const Admin = () => {
       description: "",
       isNew: false,
       isFeatured: false,
+      images: [],
     });
+    setProductImages([]);
     setIsEditingProduct(false);
     setProductBeingEdited(null);
     setIsAddProductOpen(true);
@@ -240,23 +278,23 @@ const Admin = () => {
       
       <Tabs defaultValue="products" onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full justify-start mb-6 bg-white border shadow-sm rounded-md">
-          <TabsTrigger value="products" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-4">
+          <TabsTrigger value="products" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-supabase-green rounded-none px-4">
             <Package size={18} />
             <span>Products</span>
           </TabsTrigger>
-          <TabsTrigger value="orders" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-4">
+          <TabsTrigger value="orders" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-supabase-green rounded-none px-4">
             <ShoppingBag size={18} />
             <span>Orders</span>
           </TabsTrigger>
-          <TabsTrigger value="customers" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-4">
+          <TabsTrigger value="customers" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-supabase-green rounded-none px-4">
             <Users size={18} />
             <span>Customers</span>
           </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-4">
+          <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-supabase-green rounded-none px-4">
             <BarChart size={18} />
             <span>Analytics</span>
           </TabsTrigger>
-          <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-4">
+          <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:border-b-2 data-[state=active]:border-supabase-green rounded-none px-4">
             <Settings size={18} />
             <span>Settings</span>
           </TabsTrigger>
@@ -279,7 +317,7 @@ const Admin = () => {
                   <Download size={16} />
                   <span>Export</span>
                 </Button>
-                <Button onClick={openAddProductDialog} className="bg-black text-white hover:bg-gray-800 flex items-center gap-2">
+                <Button onClick={openAddProductDialog} className="bg-supabase-green text-white hover:bg-supabase-darkGreen flex items-center gap-2">
                   <Plus size={16} />
                   <span>Add Product</span>
                 </Button>
@@ -316,7 +354,7 @@ const Admin = () => {
                     <TableCell>
                       <button 
                         onClick={() => handleEditStock(product.id, product.stock)}
-                        className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black rounded"
+                        className="hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-supabase-green rounded"
                       >
                         {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                       </button>
@@ -364,7 +402,7 @@ const Admin = () => {
               </div>
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsStockDialogOpen(false)}>Cancel</Button>
-                <Button onClick={saveStockChange} className="bg-black text-white hover:bg-gray-800">Save</Button>
+                <Button onClick={saveStockChange} className="bg-supabase-green text-white hover:bg-supabase-darkGreen">Save</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -491,6 +529,60 @@ const Admin = () => {
                       />
                     </div>
                     
+                    {/* Product Images Section */}
+                    <div className="md:col-span-2 space-y-4">
+                      <Label className="text-base font-medium">Product Images</Label>
+                      
+                      <div className="flex flex-wrap gap-4 p-4 border rounded-md bg-gray-50">
+                        {productImages.map((image, index) => (
+                          <div key={index} className="relative group">
+                            <img 
+                              src={image} 
+                              alt={`Product image ${index + 1}`} 
+                              className="w-24 h-24 object-cover rounded-md shadow-sm"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://placehold.co/100x100?text=Error";
+                              }}
+                            />
+                            <button
+                              type="button"
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={() => removeProductImage(index)}
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ))}
+                        
+                        {productImages.length === 0 && (
+                          <div className="flex items-center justify-center w-full h-24 border-2 border-dashed border-gray-300 rounded-md">
+                            <p className="text-gray-500">No images added yet</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Input
+                          type="text"
+                          placeholder="Enter image URL"
+                          value={newImageUrl}
+                          onChange={(e) => setNewImageUrl(e.target.value)}
+                          className="flex-1"
+                        />
+                        <Button 
+                          type="button" 
+                          onClick={addProductImage}
+                          className="bg-supabase-green text-white hover:bg-supabase-darkGreen"
+                        >
+                          <ImagePlus size={16} className="mr-2" />
+                          Add Image
+                        </Button>
+                      </div>
+                      <p className="text-sm text-gray-500">
+                        Add multiple images for your product. The first image will be used as the main product image.
+                      </p>
+                    </div>
+                    
                     <FormField
                       control={form.control}
                       name="description"
@@ -516,6 +608,7 @@ const Admin = () => {
                       variant="outline" 
                       onClick={() => {
                         setIsAddProductOpen(false);
+                        setProductImages([]);
                         form.reset();
                       }}
                     >
@@ -523,7 +616,7 @@ const Admin = () => {
                     </Button>
                     <Button 
                       type="submit"
-                      className="bg-black text-white hover:bg-gray-800"
+                      className="bg-supabase-green text-white hover:bg-supabase-darkGreen"
                     >
                       <Save size={16} className="mr-2" />
                       {isEditingProduct ? "Update Product" : "Add Product"}
