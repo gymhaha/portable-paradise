@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { 
   Facebook, 
@@ -20,8 +19,8 @@ const Footer = () => {
           {/* Company info */}
           <div>
             <Link to="/" className="flex items-center space-x-2 text-xl font-semibold mb-6">
-              <span className="bg-black text-white px-2 py-1 rounded">TECH</span>
-              <span>ELITE</span>
+              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span>SALE</span>
             </Link>
             <p className="text-gray-600 mb-4">
               Premium laptops for professionals, gamers, and creators. Experience technology like never before.
@@ -152,7 +151,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-500 text-sm mb-4 md:mb-0">
-              © {currentYear} TechElite. All rights reserved.
+              © {currentYear} Lappy Sale. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-4 text-sm text-gray-500">
               <Link to="/privacy" className="hover:text-gray-900 transition-colors">

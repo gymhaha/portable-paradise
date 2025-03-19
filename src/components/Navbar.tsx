@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -26,7 +25,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
   
   const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 0);
   
-  // Track scroll position for glass effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -40,7 +38,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setSearchOpen(false);
@@ -64,16 +61,14 @@ const Navbar = ({ cartItems }: NavbarProps) => {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
             <Link 
               to="/" 
               className="flex items-center space-x-2 text-xl font-semibold"
             >
-              <span className="bg-black text-white px-2 py-1 rounded">TECH</span>
-              <span>ELITE</span>
+              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span>SALE</span>
             </Link>
             
-            {/* Desktop Navigation */}
             {!isMobile && (
               <nav className="flex space-x-8 text-sm">
                 <Link 
@@ -123,7 +118,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
               </nav>
             )}
             
-            {/* Action Icons */}
             <div className="flex items-center space-x-4">
               <button 
                 onClick={() => setSearchOpen(!searchOpen)}
@@ -176,7 +170,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
             </div>
           </div>
           
-          {/* Search Bar (conditionally rendered) */}
           <div 
             className={`overflow-hidden transition-all duration-300 ${
               searchOpen ? 'h-14 opacity-100 mb-3' : 'h-0 opacity-0'
@@ -195,7 +188,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
         </div>
       </header>
       
-      {/* Mobile Menu */}
       <div 
         className={`fixed inset-0 bg-white z-40 transition-transform duration-300 ease-in-out ${
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -204,8 +196,8 @@ const Navbar = ({ cartItems }: NavbarProps) => {
         <div className="flex flex-col h-full p-4">
           <div className="flex justify-between items-center border-b pb-4">
             <Link to="/" className="flex items-center space-x-2 text-xl font-semibold">
-              <span className="bg-black text-white px-2 py-1 rounded">TECH</span>
-              <span>ELITE</span>
+              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span>SALE</span>
             </Link>
             <button 
               onClick={() => setMobileMenuOpen(false)}
@@ -256,7 +248,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
         </div>
       </div>
       
-      {/* Spacer to push content below fixed header */}
       <div className={`h-16 ${searchOpen ? 'h-32' : ''}`}></div>
     </>
   );
