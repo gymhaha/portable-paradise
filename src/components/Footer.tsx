@@ -19,7 +19,7 @@ const Footer = () => {
           {/* Company info */}
           <div>
             <Link to="/" className="flex items-center space-x-2 text-xl font-semibold mb-6">
-              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span className="bg-supabase-green text-white px-2 py-1 rounded">LAPPY</span>
               <span>SALE</span>
             </Link>
             <p className="text-gray-600 mb-4">

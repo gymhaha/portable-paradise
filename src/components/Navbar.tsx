@@ -66,7 +66,7 @@ const Navbar = ({ cartItems }: NavbarProps) => {
               to="/" 
               className="flex items-center space-x-2 text-xl font-semibold"
             >
-              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span className="bg-supabase-green text-white px-2 py-1 rounded">LAPPY</span>
               <span>SALE</span>
             </Link>
             
@@ -204,7 +204,7 @@ const Navbar = ({ cartItems }: NavbarProps) => {
         <div className="flex flex-col h-full p-4">
           <div className="flex justify-between items-center border-b pb-4">
             <Link to="/" className="flex items-center space-x-2 text-xl font-semibold">
-              <span className="bg-black text-white px-2 py-1 rounded">LAPPY</span>
+              <span className="bg-supabase-green text-white px-2 py-1 rounded">LAPPY</span>
               <span>SALE</span>
             </Link>
             <button 

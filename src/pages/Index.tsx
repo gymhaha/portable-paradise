@@ -74,14 +74,14 @@ const Index = () => {
         </section>
         
         {/* Categories section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-gray-50 border-t-4 border-supabase-green">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Browse Categories</h2>
                 <p className="text-gray-600">Explore our collection of premium laptops</p>
               </div>
-              <Link to="/products" className="inline-flex items-center mt-4 md:mt-0 text-black hover:underline">
+              <Link to="/products" className="inline-flex items-center mt-4 md:mt-0 text-supabase-green hover:text-supabase-darkGreen">
                 View All Categories
                 <ArrowRight size={16} className="ml-1" />
               </Link>
@@ -103,7 +103,7 @@ const Index = () => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">New Arrivals</h2>
                 <p className="text-gray-600">The latest and greatest laptops have landed</p>
               </div>
-              <Link to="/products?filter=new" className="inline-flex items-center mt-4 md:mt-0 text-black hover:underline">
+              <Link to="/products?filter=new" className="inline-flex items-center mt-4 md:mt-0 text-supabase-green hover:text-supabase-darkGreen">
                 View All New Arrivals
                 <ArrowRight size={16} className="ml-1" />
               </Link>
@@ -122,14 +122,14 @@ const Index = () => {
         </section>
         
         {/* Special offers section */}
-        <section className="py-16 bg-gradient-to-r from-gray-50 to-gray-100">
+        <section className="py-16 bg-gradient-to-r from-gray-50 to-gray-100 border-t-4 border-supabase-green">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Special Offers</h2>
                 <p className="text-gray-600">Limited time deals you don't want to miss</p>
               </div>
-              <Link to="/deals" className="inline-flex items-center mt-4 md:mt-0 text-black hover:underline">
+              <Link to="/deals" className="inline-flex items-center mt-4 md:mt-0 text-supabase-green hover:text-supabase-darkGreen">
                 View All Deals
                 <ArrowRight size={16} className="ml-1" />
               </Link>
@@ -162,7 +162,7 @@ const Index = () => {
                   placeholder="Your email address"
                   className="flex-grow px-4 py-3 rounded-md text-black"
                 />
-                <Button className="bg-white text-black hover:bg-gray-200 px-6">
+                <Button variant="supabase" className="px-6">
                   Subscribe
                 </Button>
               </div>
