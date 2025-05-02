@@ -154,13 +154,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
                   Support
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <Link 
-                  to="/admin" 
-                  className="hover:text-gray-600 transition-colors py-2 relative group"
-                >
-                  Admin
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                </Link>
               </nav>
             )}
             
@@ -279,9 +272,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
             <Link to="/support" className="hover:text-gray-600 transition-colors">
               Support
             </Link>
-            <Link to="/admin" className="hover:text-gray-600 transition-colors">
-              Admin Dashboard
-            </Link>
           </nav>
           
           <div className="mt-auto border-t pt-4 space-y-4">
@@ -292,10 +282,6 @@ const Navbar = ({ cartItems }: NavbarProps) => {
             <Link to="/wishlist" className="flex items-center space-x-2 hover:text-gray-600 transition-colors">
               <Heart size={20} />
               <span>Wishlist</span>
-            </Link>
-            <Link to="/admin" className="flex items-center space-x-2 hover:text-gray-600 transition-colors">
-              <LayoutDashboard size={20} />
-              <span>Admin Dashboard</span>
             </Link>
           </div>
         </div>

@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { 
   Facebook, 
@@ -128,19 +129,19 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin size={18} className="text-gray-600 mr-3 mt-0.5 flex-shrink-0" />
                 <span className="text-gray-600">
-                  123 Tech Street, Innovation Valley, CA 94043, USA
+                  xyzz
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone size={18} className="text-gray-600 mr-3 flex-shrink-0" />
-                <a href="tel:+1-800-TECHELITE" className="text-gray-600 hover:text-gray-900 transition-colors">
-                  +1-800-TECHELITE
+                <a href="tel:+918374700000" className="text-gray-600 hover:text-gray-900 transition-colors">
+                  +91 83747
                 </a>
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="text-gray-600 mr-3 flex-shrink-0" />
-                <a href="mailto:support@techelite.com" className="text-gray-600 hover:text-gray-900 transition-colors">
-                  support@techelite.com
+                <a href="mailto:xyz@gmail.com" className="text-gray-600 hover:text-gray-900 transition-colors">
+                  xyz@gmail.com
                 </a>
               </li>
             </ul>

@@ -20,7 +20,7 @@ interface ProductCarouselProps {
 const ProductCarousel = ({ 
   products, 
   onAddToCart,
-  autoplayInterval = 5000 
+  autoplayInterval = 3000 
 }: ProductCarouselProps) => {
   const isMobile = useIsMobile();
   const [itemsPerView, setItemsPerView] = useState(4);
