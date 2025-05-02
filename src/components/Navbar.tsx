@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Search, 
@@ -21,6 +21,9 @@ const Navbar = ({ cartItems }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMobile = useIsMobile();
   const location = useLocation();
   
@@ -43,6 +46,30 @@ const Navbar = ({ cartItems }: NavbarProps) => {
     setMobileMenuOpen(false);
     setSearchOpen(false);
   }, [location]);
+  
+  const handleDropdownEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleDropdownLeave = () => {
+    // Add a delay before closing the dropdown
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 300); // 300ms delay
+  };
+
+  // Clean up timeout on component unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
+  }, []);
   
   const categories = [
     "Gaming Laptops",
@@ -79,7 +106,12 @@ const Navbar = ({ cartItems }: NavbarProps) => {
                   Home
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <div className="relative group">
+                <div 
+                  className="relative group"
+                  ref={dropdownRef}
+                  onMouseEnter={handleDropdownEnter}
+                  onMouseLeave={handleDropdownLeave}
+                >
                   <Link 
                     to="/products" 
                     className="hover:text-gray-600 transition-colors py-2 flex items-center relative"
@@ -88,7 +120,13 @@ const Navbar = ({ cartItems }: NavbarProps) => {
                     <ChevronDown size={16} className="ml-1" />
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
                   </Link>
-                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-40 opacity-0 scale-95 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto">
+                  <div 
+                    className={`absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-40 transition-all duration-200 ${
+                      dropdownOpen 
+                        ? 'opacity-100 scale-100 pointer-events-auto' 
+                        : 'opacity-0 scale-95 pointer-events-none'
+                    }`}
+                  >
                     <div className="py-2">
                       {categories.map((category) => (
                         <Link
