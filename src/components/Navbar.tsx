@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -7,8 +8,7 @@ import {
   Heart, 
   Menu, 
   X, 
-  ChevronDown,
-  LayoutDashboard 
+  ChevronDown
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { CartItem } from '@/lib/data';
@@ -77,6 +77,23 @@ const Navbar = ({ cartItems }: NavbarProps) => {
     "Ultrabooks",
     "Macbooks"
   ];
+
+  // Handle smooth scrolling for anchor links
+  const handleSupportClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    
+    // If not on homepage, navigate to homepage with hash
+    if (location.pathname !== '/') {
+      window.location.href = '/#support';
+      return;
+    }
+    
+    // If on homepage, smooth scroll to the section
+    const supportSection = document.getElementById('support');
+    if (supportSection) {
+      supportSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -147,13 +164,14 @@ const Navbar = ({ cartItems }: NavbarProps) => {
                   Deals
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
-                <Link 
-                  to="/support" 
-                  className="hover:text-gray-600 transition-colors py-2 relative group"
+                <a 
+                  href="/#support"
+                  onClick={handleSupportClick}
+                  className="hover:text-gray-600 transition-colors py-2 relative group cursor-pointer"
                 >
                   Support
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                </Link>
+                </a>
               </nav>
             )}
             
@@ -269,9 +287,13 @@ const Navbar = ({ cartItems }: NavbarProps) => {
             <Link to="/deals" className="hover:text-gray-600 transition-colors">
               Deals
             </Link>
-            <Link to="/support" className="hover:text-gray-600 transition-colors">
+            <a 
+              href="/#support" 
+              onClick={handleSupportClick}
+              className="hover:text-gray-600 transition-colors"
+            >
               Support
-            </Link>
+            </a>
           </nav>
           
           <div className="mt-auto border-t pt-4 space-y-4">
