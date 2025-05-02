@@ -9,6 +9,7 @@ import FeaturedProduct from '@/components/FeaturedProduct';
 import ProductCard from '@/components/ProductCard';
 import CategoryCard from '@/components/CategoryCard';
 import { Button } from '@/components/ui/button';
+import ProductCarousel from '@/components/ProductCarousel';
 
 const Index = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -70,6 +71,24 @@ const Index = () => {
                 onAddToCart={handleAddToCart} 
               />
             )}
+          </div>
+        </section>
+        
+        {/* Product Carousel */}
+        <section className="py-12 border-t-4 border-supabase-green">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Trending Products</h2>
+                <p className="text-gray-600">Our most popular products this week</p>
+              </div>
+              <Link to="/products" className="inline-flex items-center mt-4 md:mt-0 text-supabase-green hover:text-supabase-darkGreen">
+                View All Products
+                <ArrowRight size={16} className="ml-1" />
+              </Link>
+            </div>
+            
+            <ProductCarousel products={products.slice(0, 6)} onAddToCart={handleAddToCart} />
           </div>
         </section>
         
