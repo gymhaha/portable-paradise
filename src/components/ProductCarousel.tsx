@@ -8,17 +8,55 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 import ProductCard from "./ProductCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ProductCarouselProps {
   products: Product[];
   onAddToCart: (product: Product) => void;
+  autoplayInterval?: number;
 }
 
-const ProductCarousel = ({ products, onAddToCart }: ProductCarouselProps) => {
+const ProductCarousel = ({ 
+  products, 
+  onAddToCart,
+  autoplayInterval = 5000 
+}: ProductCarouselProps) => {
   const isMobile = useIsMobile();
   const [itemsPerView, setItemsPerView] = useState(4);
+  const [api, setApi] = useState<any>(null);
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      clearTimeout(autoplayTimerRef.current);
+    }
+    
+    autoplayTimerRef.current = setTimeout(() => {
+      if (api) {
+        api.scrollNext();
+      }
+      startAutoplay();
+    }, autoplayInterval);
+  }, [api, autoplayInterval]);
+
+  const stopAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) {
+      clearTimeout(autoplayTimerRef.current);
+      autoplayTimerRef.current = null;
+    }
+  }, []);
+  
+  // Initialize autoplay
+  useEffect(() => {
+    if (api) {
+      startAutoplay();
+    }
+    
+    return () => {
+      stopAutoplay();
+    };
+  }, [api, startAutoplay, stopAutoplay]);
   
   useEffect(() => {
     const handleResize = () => {
@@ -48,7 +86,10 @@ const ProductCarousel = ({ products, onAddToCart }: ProductCarouselProps) => {
         align: "start",
         loop: true,
       }}
+      setApi={setApi}
       className="w-full"
+      onMouseEnter={stopAutoplay}
+      onMouseLeave={startAutoplay}
     >
       <CarouselContent className="-ml-2 md:-ml-4">
         {products.map((product) => (
