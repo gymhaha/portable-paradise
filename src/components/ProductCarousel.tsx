@@ -1,4 +1,3 @@
-
 import { Product } from "@/lib/data";
 import { 
   Carousel, 
@@ -20,7 +19,7 @@ interface ProductCarouselProps {
 const ProductCarousel = ({ 
   products, 
   onAddToCart,
-  autoplayInterval = 3000 
+  autoplayInterval = 2000 // Reduced from 3000 to 2000 milliseconds
 }: ProductCarouselProps) => {
   const isMobile = useIsMobile();
   const [itemsPerView, setItemsPerView] = useState(4);
